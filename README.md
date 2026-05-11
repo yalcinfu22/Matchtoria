@@ -13,7 +13,7 @@
 ## 🎬 Gameplay Showcase
 
 <p align="center">
-  <img src="docs/media/match3-demo.gif" alt="Match-3 gameplay demo — Rocket, TNT, ColorBomb and combos" width="640">
+  <img src="docs/media/match3-demo.gif" alt="Match-3 gameplay demo — Rocket, TNT, ColorBomb and combos" width="360">
 </p>
 
 <p align="center">
