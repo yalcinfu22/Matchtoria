@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5372905175728463110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8583898088234810488}
+  - component: {fileID: 5752260704616322367}
+  m_Layer: 0
+  m_Name: LevelSceneManager
+  m_TagString: LevelCanvas
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8583898088234810488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372905175728463110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 213.90617, y: 168.52287, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5752260704616322367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372905175728463110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fbe111eab2fafb4a9b929b56295ec50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSceneManager
+  m_BoardManagerPrefab: {fileID: 3326295820569813441, guid: eebb1533409fa1144808c23e2605492a, type: 3}
+  m_LevelUIManagerPrefab: {fileID: 8485076415198523534, guid: 541de56ebbadc55448c82674f3ea0b6c, type: 3}
+  m_BoardViewPrefab: {fileID: 7042504958745733334, guid: c74a89ac4e11d804ea6fe1215080b994, type: 3}
+  _boardBuilderPrefab: {fileID: 7676916967492315667, guid: ad414d86213ac7043a52576f06314c56, type: 3}
+  m_Background: {fileID: 0}
+  m_EndPopupDelay: 1
+  prefabEntries:
+  - type: 1
+    prefab: {fileID: 3072231317657122300, guid: 1e20143528e5ba443bcb2bec95f95fa7, type: 3}
+  - type: 9
+    prefab: {fileID: 8693669184037375114, guid: 94a026ac910f98e4e8f1bcb75ff1bcb9, type: 3}
+  - type: 3
+    prefab: {fileID: -890990212821631788, guid: 36ca94fd2f5b2ef4990f0d7153db6092, type: 3}
+  - type: 4
+    prefab: {fileID: 7534495350283738817, guid: 466b4df18a7bb0e439d6049fe5f6a1bd, type: 3}
+  - type: 5
+    prefab: {fileID: 4261417315417805563, guid: 27a9278783f9e1847a7a20dea8f33862, type: 3}
+  - type: 6
+    prefab: {fileID: 2269276884759096371, guid: 945694848ab8cd64f9ea88af04285298, type: 3}
+  - type: 7
+    prefab: {fileID: 7534495350283738817, guid: 91c89babedfb3774590a5c88977721c1, type: 3}

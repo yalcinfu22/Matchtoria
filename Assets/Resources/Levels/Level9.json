@@ -1,0 +1,53 @@
+{
+  "level_number": 9,
+  "grid_width": 9,
+  "grid_height": 9,
+  "move_count": 22,
+  "requirements": [
+    {
+      "type": "yellow",
+      "value": 50
+    },
+    {
+      "type": "blue",
+      "value": 50
+    },
+    {
+      "type": "vase",
+      "value": 6
+    }
+  ],
+  "grid_top": [
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null
+  ],
+  "grid_middle": [
+    "vase", "blue", "yellow", "red", "green", "blue", "yellow", "red", "vase",
+    "yellow", "red", "green", "blue", "vertical_rocket", "yellow", "red", "green", "blue",
+    "green", "blue", "vase", "yellow", "red", "green", "vase", "blue", "yellow",
+    "red", "yellow", "green", "blue", "yellow", "red", "green", "yellow", "red",
+    "blue", "horizontal_rocket", "red", "green", "random", "blue", "yellow", "vertical_rocket", "green",
+    "yellow", "green", "blue", "red", "yellow", "green", "blue", "red", "yellow",
+    "red", "blue", "vase", "yellow", "green", "red", "vase", "yellow", "green",
+    "green", "yellow", "red", "blue", "horizontal_rocket", "green", "yellow", "red", "blue",
+    "vase", "red", "green", "yellow", "blue", "red", "green", "yellow", "vase"
+  ],
+  "grid_bottom": [
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null, null
+  ]
+}

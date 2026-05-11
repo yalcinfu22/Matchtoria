@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2827923490081779847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4496262870819338304}
+  - component: {fileID: 7676916967492315667}
+  m_Layer: 0
+  m_Name: BoardBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4496262870819338304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827923490081779847}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 99.73756, y: 266.35712, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7676916967492315667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827923490081779847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4ac6a29b6588a4b86eadd0080deb12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardBuilder
+  topLeft: {fileID: 2277224251148966267, guid: 6a1aca5a3c948744d864d164dedaa873, type: 3}
+  topRight: {fileID: 8345952798167189260, guid: 85d950f34d7d60e4a88ec1609e6a65e9, type: 3}
+  bottomLeft: {fileID: 2439160945475636931, guid: fff59cb1941a3454590cf290bab9b6ca, type: 3}
+  bottomRight: {fileID: 7698695684096635451, guid: 26ae24c3b81a0c54b98fb80309a736f1, type: 3}
+  top: {fileID: 5775657902742376984, guid: ae8017a6dd4bb8340ac196a2b0f4ea07, type: 3}
+  right: {fileID: 8381574025098637092, guid: d956858c395af44499212342070ba000, type: 3}
+  left: {fileID: 2814698447527105250, guid: a3fd071242f5f7d4c9135c808dc9053d, type: 3}
+  bottom: {fileID: 1531859361664460823, guid: f9db8a2ad52f5554990f413a361e50f3, type: 3}
+  middle: {fileID: 7807353133758054201, guid: 89ae88f6a5f4f214492bf87b6b514d30, type: 3}

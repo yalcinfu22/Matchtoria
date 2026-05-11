@@ -1,0 +1,43 @@
+{
+  "level_number": 3,
+  "grid_width": 7,
+  "grid_height": 7,
+  "move_count": 15,
+  "requirements": [
+    {
+      "type": "yellow",
+      "value": 30
+    },
+    {
+      "type": "box",
+      "value": 4
+    }
+  ],
+  "grid_top": [
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null
+  ],
+  "grid_middle": [
+    "red", "red", "blue", "red", "red", "green", "blue",
+    "yellow", "box", "red", "green", "blue", "box", "yellow",
+    "green", "blue", "red", "red", "green", "blue", "red",
+    "blue", "yellow", "red", "green", "blue", "yellow", "green",
+    "red", "box", "green", "blue", "yellow", "box", "blue",
+    "yellow", "red", "blue", "yellow", "red", "green", "yellow",
+    "green", "blue", "yellow", "red", "green", "blue", "red"
+  ],
+  "grid_bottom": [
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null
+  ]
+}

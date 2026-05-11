@@ -1,0 +1,43 @@
+{
+  "level_number": 5,
+  "grid_width": 8,
+  "grid_height": 7,
+  "move_count": 22,
+  "requirements": [
+    {
+      "type": "green",
+      "value": 30
+    },
+    {
+      "type": "vase",
+      "value": 5
+    }
+  ],
+  "grid_top": [
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null
+  ],
+  "grid_middle": [
+    "red", "green", "blue", "vase", "vase", "yellow", "red", "green",
+    "blue", "yellow", "red", "green", "blue", "yellow", "green", "blue",
+    "green", "vase", "yellow", "red", "green", "blue", "vase", "yellow",
+    "yellow", "red", "green", "blue", "yellow", "red", "green", "red",
+    "blue", "green", "yellow", "red", "blue", "green", "yellow", "blue",
+    "red", "vase", "blue", "green", "yellow", "red", "blue", "green",
+    "green", "yellow", "red", "blue", "green", "yellow", "red", "yellow"
+  ],
+  "grid_bottom": [
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null
+  ]
+}
