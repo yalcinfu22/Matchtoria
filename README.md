@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <sub>Rocket · TNT · ColorBomb · Combos in a single flow — <code>docs/media/match3-demo.gif</code></sub>
+  <sub>Rocket · TNT · Combos in a single flow — <code>docs/media/match3-demo.gif</code></sub>
 </p>
 
 The design's bet: **as visual complexity grows, code stays simple**. The model layer returns a `List<Command>`; everything else is solved by timestamps and `Sequence.Insert`.
