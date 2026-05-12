@@ -20,8 +20,6 @@
   <sub>Rocket · TNT · ColorBomb · Combos in a single flow — <code>docs/media/match3-demo.gif</code></sub>
 </p>
 
-A single mini level demonstrating how four mechanics share **one pipeline**: Rocket sweeping a row/column, TNT detonating a 5×5 area, ColorBomb clearing all tiles of a chosen color, and special-tile combos (R+T, T+T, R+R, ColorBomb+special) sequenced in parallel inside a single DOTween `Sequence`.
-
 The design's bet: **as visual complexity grows, code stays simple**. The model layer returns a `List<Command>`; everything else is solved by timestamps and `Sequence.Insert`.
 
 > ⚠️ **The sprite kit is not shipped.** The tiles, obstacles, UI elements and background sprites visible in the demo **belong to Dream Games** and are not included in this repository for copyright reasons. When you open the project locally you will see broken sprite references in prefabs (`MissingReference` or magenta-tile warnings) — substitute your own sprite kit or placeholder assets. The code itself runs fine.
