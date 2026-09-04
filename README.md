@@ -736,7 +736,7 @@ Scripts/
 
 ## License and Attribution
 
-- **Code and architecture:** personal portfolio work — contact the repository owner for reuse permission.
+- **Code and architecture:** personal portfolio work.
 - **Sprite / visual assets:** **owned by Dream Games** and not shipped with this repository. The demo GIF illustrates the final look of the assets, but the asset files themselves are not distributed.
 
 ---
