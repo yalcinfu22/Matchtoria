@@ -1,11 +1,10 @@
 # Matchtoria
 
-> A *Royal Match*-style match / blast puzzle prototype. Unity 6 + URP 17.2 + DOTween + UniTask. The **shareable subset** of a Dream Games case-study project — contains the Unity project skeleton (scenes, prefabs, level data, settings) and the architecture documentation; the sprite kit and internal notes are not shipped.
+> A *Royal Match*-style match / blast puzzle prototype. Unity 6 + URP 17.2 + DOTween. Developed as a two-person project. The **shareable subset** of a Dream Games case-study project — contains the Unity project skeleton (scenes, prefabs, level data, settings) and the architecture documentation; the sprite kit and internal notes are not shipped.
 
 ![Unity](https://img.shields.io/badge/Unity-6000.2.10f1-black?logo=unity)
 ![URP](https://img.shields.io/badge/URP-17.2-1f6feb)
 ![DOTween](https://img.shields.io/badge/Animation-DOTween_Sequence-f97316)
-![UniTask](https://img.shields.io/badge/Async-UniTask-7c3aed)
 ![Architecture](https://img.shields.io/badge/Architecture-Model%20%2F%20Command%20%2F%20View-2ea043)
 
 ---
@@ -22,7 +21,7 @@
 
 The design's bet: **as visual complexity grows, code stays simple**. The model layer returns a `List<Command>`; everything else is solved by timestamps and `Sequence.Insert`.
 
-> ⚠️ **The sprite kit is not shipped.** The tiles, obstacles, UI elements and background sprites visible in the demo **belong to Dream Games** and are not included in this repository for copyright reasons. When you open the project locally you will see broken sprite references in prefabs (`MissingReference` or magenta-tile warnings) — substitute your own sprite kit or placeholder assets. The code itself runs fine.
+> ⚠️ **The sprite kit is not shipped.** The tiles, obstacles, UI elements and background sprites visible in the demo **belong to Dream Games** and are not included in this repository for copyright reasons. When you open the project locally you will see broken sprite references in prefabs (`MissingReference` or magenta-tile warnings) — substitute your own sprite kit or placeholder assets. Restore the required dependencies and replace the missing assets before attempting a local run.
 
 ---
 
@@ -63,7 +62,7 @@ The project is organised as three concentric rings:
   │  │  ┌─────────────────────────────────────────────────────┐  │  │
   │  │  │  ③ Board Core  — Model / Command / View              │  │  │
   │  │  │     BoardManager (bridge)                            │  │  │
-  │  │  │       ├─ BoardModel  (pure C#, zero Unity deps)      │  │  │
+  │  │  │       ├─ BoardModel  (C# gameplay logic)            │  │  │
   │  │  │       ├─ BoardView   (DOTween Sequence)              │  │  │
   │  │  │       └─ BoardPoolManager (Unity ObjectPool<TileView>)│  │  │
   │  │  └─────────────────────────────────────────────────────┘  │  │
@@ -73,7 +72,7 @@ The project is organised as three concentric rings:
 
 **Lifetime shrinks from outside in.** Bootstrap singletons live for the whole game session, scene-lifetime objects are rebuilt every level, and the board core is reconstructed from scratch on each `BuildBoard(LevelData)` call.
 
-**Dependencies flow inward, with minimal horizontal coupling between systems.** The model knows nothing. The view consumes the model's `Command` output. Scene-lifetime managers wire model and view together. Bootstrap singletons concern themselves only with persistent state (current level, scene loading) — they have no opinion about gameplay rules.
+**Dependencies flow inward, with minimal horizontal coupling between systems.** The model generates gameplay commands without owning scene objects, but it still uses Unity types such as `Vector2Int`. The view consumes the model's `Command` output. Scene-lifetime managers wire model and view together. Bootstrap singletons concern themselves only with persistent state (current level, scene loading) — they have no opinion about gameplay rules.
 
 ---
 
@@ -214,7 +213,7 @@ private void Awake()
 
 ## Model Layer
 
-> **Pure C#, zero Unity dependencies.** Pure-logic unit tests can run without launching the Unity Editor.
+> **Gameplay logic is separated from the view.** The model uses Unity types, including `Vector2Int`, and is not an engine-independent .NET library. The files under `Assets/Scripts/Tests/` are runtime playground components; this repository does not provide a documented standalone unit-test runner.
 
 ### Ability Interfaces (Favoring Composition Over Inheritance - Obeying Liskov's Rule)
 
@@ -237,9 +236,9 @@ Each tile **only implements the interfaces it actually supports**, so trying to 
 | `Box` | `IDamagable` | Static, only destroyed by adjacent damage |
 | `Vase` | `IDamagable` | Multi-hit obstacle (2 hits) |
 | `Stone` | `IDamagable` | Multi-hit, tougher variant |
-| `Rocket` (horizontal/vertical) | `ITriggerable`, `IMovable`, `IDamagable` | Sweeps a row or column when triggered |
-| `TNT` | `ITriggerable`, `IMovable`, `IDamagable` | Detonates a 5×5 area |
-| `ColorBomb` | `ITriggerable`, `IMovable`, `IDamagable` | Clears all tiles of a chosen colour across the whole board |
+| `Rocket` (horizontal/vertical) | `ITriggerable`, `IMovable` | Sweeps a row or column when triggered |
+| `TNT` | `ITriggerable`, `IMovable` | Detonates a 5×5 area |
+| `ColorBomb` | `ITriggerable`, `IMovable` | Clears all tiles of a chosen colour across the whole board |
 
 `TileModel.GetDeathEffect() : Damage` — the side-effect a tile emits as it dies (if any).
 
@@ -361,7 +360,7 @@ static TileFactory.CreateFromTileType(TileType t) : TileModel
 
 ## Command Pipeline
 
-The model's **only output to the outside world** is `List<Command>`. The view knows how to render it, the model knows how to produce it, and there is nothing else gluing them together.
+`BoardModel.ProcessSwap` returns a `SwapResult` containing the command list and optional merge metadata. `BoardView` consumes the commands and schedules their animations.
 
 ### `Command` struct
 
@@ -382,7 +381,7 @@ public struct Command
 
 | Command | Meaning |
 |---|---|
-| `Move` / `MoveLeft/Right/Up/Down` (direction encoded in `Start→Target`) | Tile motion during a swap |
+| `Move` | Tile movement from `StartPosition` to `TargetPosition` |
 | `Swap` | Swap intention marker (used to detect invalid-swap reverts) |
 | `Trigger` | Special-tile activation (Rocket / TNT / ColorBomb) |
 | `Fall` | Straight downward fall |
@@ -390,8 +389,8 @@ public struct Command
 | `Spawn` | New tile at the top row — carries its colour in `TileType` |
 | `TakeDamage` | Multi-hit obstacle damage animation (`Health` = new HP) |
 | `DestroySelf` | Tile dies (from a match or a trigger) |
-| `Merge` | Two triggerables merging when swapped together |
-| `ExplosionStart` / `ExplosionEnd` | Explosion-phase markers (animation gating) |
+| `Merge` | Model-side special-tile merge marker; the current view logs a warning and skips it |
+| `ExplosionStart` / `ExplosionEnd` | Defined enum values; the current `BoardView` switch does not handle them |
 
 ### Timestamp discipline
 
@@ -459,16 +458,16 @@ class BoardView : MonoBehaviour
 }
 ```
 
-**The 4-phase `ProcessBatch`** (commands grouped within `BATCH_EPSILON`):
+**Timestamped command playback:** `ExecuteCommands` orders commands by `startTimeStamp` and dispatches them through four handlers:
 
-| Phase | Work |
+| Handler | Work |
 |---|---|
-| **A** | Gather move sources **before mutation** (swap atomicity) |
-| **B** | Clear sources, write destinations |
-| **C** | Queue `DOLocalMove` tweens via `_activeSequence.Insert(startTime, tween)` |
-| **D** | Non-move commands (`DestroySelf` / `Spawn` / `TakeDamage` / `Trigger`) via `InsertCallback` |
+| `HandleMove` | Update source/destination tile references and insert a `DOMove` tween |
+| `HandleSwap` | Read both tile references before exchanging them and animate the swap |
+| `HandleSpawn` | Borrow a tile from the pool, then animate its fall or scale-in |
+| `HandleStatic` | Schedule destruction, damage, or trigger callbacks with `InsertCallback` |
 
-While animating, tiles are re-parented to `BoardView.transform`; on `OnSequenceComplete` they are reattached to the logical `NodeView`.
+External timed callbacks are inserted into the same DOTween sequence. When it completes, the view clears `IsBusy` and invokes `onComplete`. Special-tile `Merge` commands currently produce a warning and are skipped by the view.
 
 The `IsBusy` flag locks input — `BoardManager.HandleTileClicked` ignores clicks while it's set.
 
@@ -582,12 +581,13 @@ Every `Assets/Resources/Levels/LevelN.json`:
 
 ## Quick Start
 
-1. Install Unity Hub and add **Unity 6 — 6000.2.10f1** (URP 17.2). Other patch versions of 6000.2.x should open via the API updater.
-2. Open the project root in Unity Hub.
-3. Open `Assets/Scenes/Bootstrap.unity` and press **Play** — the flow walks `Bootstrap → MainMenu → Level`.
-4. For quick experiments use `Assets/Scenes/TestScene.unity`.
+1. Install Unity Hub and **Unity 6000.2.10f1**, the version recorded in `ProjectSettings/ProjectVersion.txt`.
+2. Open the project root in Unity Hub and allow Unity to resolve the packages in `Packages/manifest.json`, including URP **17.2.0**.
+3. Import **DOTween** and complete its setup. The source imports `DG.Tweening`, but the public checkout does not include the DOTween library or a package declaration.
+4. Replace the omitted sprite assets and repair the scene/prefab references. The public checkout is an incomplete asset distribution, so a fresh clone is not ready to play as-is.
+5. Open `Assets/Scenes/Bootstrap.unity`. Once dependencies and references are resolved, use **Play** to enter the `Bootstrap → MainMenu → Level` flow.
+6. `Assets/Scenes/TestScene.unity` provides a separate scene for experiments.
 
-> Because the sprite kit is not shipped (see the disclaimer above), prefabs will throw `MissingReference` warnings and tiles may appear as magenta placeholders. The code itself runs — you just need to plug in your own art.
 
 ---
 
@@ -672,7 +672,7 @@ Scripts/
 │       ├── PoolType.cs              # pool identifier enum
 │       └── PoolTypeMap.cs           # TileType → PoolType static map
 │
-├── Models/                          # ── pure C#, zero Unity dependencies ──
+├── Models/                          # Gameplay state and command generation
 │   ├── BoardModel.cs                # ProcessSwap / ProcessCascade / SpawnSpecialTiles / …
 │   ├── Commands.cs                  # Command struct + Commands enum
 │   ├── DamagePatterns.cs            # Rocket/TNT/ColorBomb/combo Damage delegates + SumDamages
@@ -692,7 +692,7 @@ Scripts/
 │           └── ColorBomb.cs         # full-board colour hunt
 │
 ├── Views/                           # ── Unity MonoBehaviours ──
-│   ├── BoardView.cs                 # ExecuteCommands + 4-phase ProcessBatch + IsBusy
+│   ├── BoardView.cs                 # Timestamped command handlers + IsBusy
 │   ├── NodeView.cs                  # 3-layer mirror of NodeModel + sorting order
 │   ├── LevelEndPopup.cs             # win / lose popup
 │   ├── RequirementSlotView.cs       # HUD requirement slot
@@ -725,7 +725,7 @@ Scripts/
 
 - **Unity 6** (6000.2.10f1) — **Universal RP 17.2.0**
 - **[DOTween](http://dotween.demigiant.com/)** — timestamped command playback via `Sequence.Insert`
-- **[UniTask](https://github.com/Cysharp/UniTask)** — allocation-free async/await
+- **UniTask:** listed in the original project notes, but no UniTask package declaration or library is included in this public checkout.
 - **Unity Input System** 1.14
 - **TextMesh Pro**
 - **Newtonsoft JSON** (`com.unity.nuget.newtonsoft-json`) — level deserialization
@@ -734,11 +734,22 @@ Scripts/
 
 ---
 
+## Design Notes
+
+- The public project contains ten JSON levels, scenes, prefabs and source code, while the sprite kit is omitted.
+- Gameplay models generate timestamped commands; the view schedules their playback with DOTween. The models still depend on Unity types.
+- Special-tile combination logic exists in the model, but the current view skips `Merge` commands. Treat this path as unfinished.
+- The demo shows the project with its original visual assets. Reproducing that appearance requires assets that are not distributed here.
+
+---
+
 ## License and Attribution
 
-- **Code and architecture:** personal portfolio work.
+- **Code and architecture:** two-person portfolio project.
 - **Sprite / visual assets:** **owned by Dream Games** and not shipped with this repository. The demo GIF illustrates the final look of the assets, but the asset files themselves are not distributed.
 
 ---
 
-<sub>Written for a Dream Games case study · Solo developer · Unity 6 + URP 17.2 + DOTween + UniTask</sub>
+<sub>Written for a Dream Games case study · Two-person project · Unity 6 + URP 17.2 + DOTween</sub>
+
+
