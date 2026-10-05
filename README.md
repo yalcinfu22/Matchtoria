@@ -88,6 +88,6 @@ This is a prototype. Special-tile combination logic exists in the model, but the
 
 Developed as a **two-person project**.
 
-**Furkan's main contribution** was defining gameplay class responsibilities and deciding which behaviors should belong to which domain classes. The architecture description covers the collaborative project as a whole, not individual authorship of every mechanism.
+**My main contribution** was defining gameplay class responsibilities and deciding which behaviors should belong to which domain classes. The architecture description covers the collaborative project as a whole, not individual authorship of every mechanism.
 
 The sprites and other visual assets shown in the demo belong to **Dream Games**. They are not original artwork by the project contributors; the original sprites are omitted from this public checkout.

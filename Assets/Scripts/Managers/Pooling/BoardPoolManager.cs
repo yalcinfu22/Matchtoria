@@ -122,7 +122,7 @@ public class BoardPoolManager
         if (tileType == TileType.None) return null;
         PoolType poolType = TileTypeToPoolType(tileType);
         TileView tile = m_Pools[poolType].Get();
-        tile.Setup(tileType, this, GameConfig.CELL_SIZE);
+        tile.Setup(tileType, this);
         return tile;
     }
 
@@ -144,7 +144,7 @@ public class BoardPoolManager
         if (poolType == PoolType.None) return null;
 
         TileView tile = m_Pools[poolType].Get();
-        tile.Setup(parsed.Type, this, GameConfig.CELL_SIZE, parsed.Health);
+        tile.Setup(parsed.Type, this, parsed.Health);
         return tile;
     }
 

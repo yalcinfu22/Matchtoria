@@ -44,9 +44,8 @@ public static class TileFactory
                 return health > 0 ? new Vase(health) : new Vase();
 
             case TileType.HorizontalRocket:
-                return new Rocket(true);
             case TileType.VerticalRocket:
-                return new Rocket(false);
+                return new Rocket(type);
 
             case TileType.TNT:
                 return new TNT();

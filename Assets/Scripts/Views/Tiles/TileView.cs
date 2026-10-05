@@ -9,15 +9,13 @@ public abstract class TileView : MonoBehaviour
 
     private TileType m_TileType;
     private BoardPoolManager m_Pool;
-    private float m_CellSize; // Yeni field
 
     public TileType TileType => m_TileType;
 
-    public void Setup(TileType type, BoardPoolManager pool, float cellSize, int initialHealth = 0)
+    public void Setup(TileType type, BoardPoolManager pool, int initialHealth = 0)
     {
         m_TileType = type;
         m_Pool = pool;
-        m_CellSize = cellSize;
 
         m_SpriteRenderer.sortingOrder = 10;
         m_SpriteRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;

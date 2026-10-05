@@ -1,20 +1,16 @@
 public class Rocket : TileModel, ITriggerable, IMovable
 {
-    private bool m_isHorizontal;
-    private bool m_isMoving = false;
-    public bool IsHorizontal => m_isHorizontal;
-    public bool IsMoving { get => m_isMoving; set => m_isMoving = value; }
+    public bool IsMoving { get; set; }
 
-    public Rocket(bool isHorizontal) : base(isHorizontal ? TileType.HorizontalRocket : TileType.VerticalRocket)
+    public Rocket(TileType type) : base(type)
     {
-        m_isHorizontal = isHorizontal;
     }
     // Both death and trigger do the same thing
     public override Damage GetDeathEffect() => GetTriggerEffect();
 
     public Damage GetTriggerEffect()
     {
-        return m_isHorizontal
+        return TileType == TileType.HorizontalRocket
             ? DamagePatterns.HorizontalRocketDamage
             : DamagePatterns.VerticalRocketDamage;
     }
