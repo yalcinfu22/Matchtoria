@@ -6,8 +6,17 @@
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
-    <UnityManaged Condition="'$(UnityManaged)' == ''">C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Managed\UnityEngine</UnityManaged>
+    <UnityProjectVersionFile>$(MSBuildThisFileDirectory)../../ProjectSettings/ProjectVersion.txt</UnityProjectVersionFile>
+    <UnityEditorVersion Condition="'$(UnityEditorVersion)' == ''">$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(UnityProjectVersionFile)')), 'm_EditorVersion: ([^\r\n]+)').Groups[1].Value)</UnityEditorVersion>
+    <UnityManaged Condition="'$(UnityManaged)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">$(ProgramFiles)/Unity/Hub/Editor/$(UnityEditorVersion)/Editor/Data/Managed/UnityEngine</UnityManaged>
+    <UnityManaged Condition="'$(UnityManaged)' == '' and $([MSBuild]::IsOSPlatform('OSX'))">/Applications/Unity/Hub/Editor/$(UnityEditorVersion)/Unity.app/Contents/Managed/UnityEngine</UnityManaged>
+    <UnityManaged Condition="'$(UnityManaged)' == '' and $([MSBuild]::IsOSPlatform('Linux'))">$(HOME)/Unity/Hub/Editor/$(UnityEditorVersion)/Editor/Data/Managed/UnityEngine</UnityManaged>
   </PropertyGroup>
+
+  <Target Name="ValidateUnityManaged" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(UnityManaged)/UnityEngine.dll') or !Exists('$(UnityManaged)/UnityEngine.CoreModule.dll')"
+           Text="Unity managed assemblies were not found in '$(UnityManaged)'. Install Unity $(UnityEditorVersion) through Unity Hub, or run dotnet test with -p:UnityManaged=&quot;path/to/Managed/UnityEngine&quot; pointing to the folder containing UnityEngine.dll and UnityEngine.CoreModule.dll." />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />

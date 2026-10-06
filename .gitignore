@@ -17,10 +17,14 @@
 /.claude/
 /.codex/
 /CLAUDE.md
-/README.md
 /docs/ARCHITECTURE_REVIEW.md
+/docs/SUGGESTIONS.md
+/docs/diffs_*.md
+/docs/iter_*.md
 /Assets/Sprites/
 /Assets/Sprites.meta
+/Assets/_Recovery/
+/Assets/_Recovery.meta
 /agents.txt
 /ignore.conf
 /ExportedObj/
@@ -57,6 +61,7 @@
 *.unitypackage.meta
 *.private
 *.private.meta
+*.private.*
 *.keystore
 *.jks
 *.pfx

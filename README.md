@@ -8,7 +8,7 @@ The project focuses on gameplay class responsibilities: board, tile and level ob
   <img src="docs/media/match3-demo.gif" alt="Matchtoria gameplay demo" width="360">
 </p>
 
-The demo shows Dream Games visual assets. The original sprite assets are excluded from this public repository.
+The demo shows Dream Games visual assets. The original sprite assets are excluded from this public repository. A fresh checkout generates simple placeholder graphics for running the game locally.
 
 **Built with:** C#, Unity 6, Universal Render Pipeline, DOTween and Newtonsoft JSON.
 
@@ -57,12 +57,23 @@ Gameplay resolution is separate from scene objects and tween playback, but **the
 
 The current editor version is **Unity 6000.6.4f1**, recorded in [ProjectVersion.txt](ProjectSettings/ProjectVersion.txt). The package manifest currently specifies **URP 17.6.0**; see [Packages/manifest.json](Packages/manifest.json) for the complete package list. DOTween is included under [Assets/DOTween](Assets/DOTween).
 
-1. Clone the repository and open it through Unity Hub using the recorded editor version.
-2. Let Unity import the project and resolve its packages.
-3. Supply the required sprite assets and repair missing scene/prefab references. The public checkout omits the original Dream Games sprites, so it is not a complete visual-asset bundle.
-4. Open `Assets/Scenes/Bootstrap.unity` and enter Play mode after resolving dependencies and missing references.
+1. Install **Unity Hub** and **Unity 6000.6.4f1**. The .NET SDK is only needed for the standalone tests below.
+2. Download and extract [the source ZIP](https://github.com/yalcinfu22/Matchtoria/archive/refs/heads/main.zip), or clone the repository:
+
+   ```sh
+   git clone https://github.com/yalcinfu22/Matchtoria.git
+   ```
+
+3. In Unity Hub, choose **Add project from disk** and select the folder containing `Assets`, `Packages` and `ProjectSettings`.
+4. Open the project with the recorded editor version and wait for package resolution, compilation and asset import. The first import needs an internet connection to download Unity packages. DOTween is already included.
+5. When the original sprite library is absent, the editor creates placeholder tiles, board graphics and UI artwork automatically. No separate art download or manual reference repair is required. The placeholders use simple shapes and colors; the GIF above shows the original presentation.
+6. Open `Assets/Scenes/Bootstrap.unity`, enter **Play** mode and click the level button. Click two adjacent tiles in sequence to swap them. A portrait Game view such as **1080 × 1920** matches the intended layout.
 
 The normal scene flow is `Bootstrap -> MainMenuScene -> LevelScene`. A separate `TestScene` and runtime experiment scripts are also included.
+
+Placeholder graphics are generated locally under the ignored `Assets/Sprites` folder. Existing artwork is preserved. Use **Tools > Matchtoria > Create Placeholder Art** to run setup again if an import was interrupted. **Tools > Reset Player Data** resets saved level progress.
+
+To create a desktop build, install the matching platform support module through Unity Hub, open **File > Build Profiles**, select the desktop platform and build into `Builds/`. The shared scene list already contains `Bootstrap`, `MainMenuScene` and `LevelScene` in that order.
 
 ## Tests
 
@@ -76,7 +87,7 @@ From the repository root:
 dotnet test Tests/PureLogic/DreamGamesCase.PureLogic.Tests.csproj
 ```
 
-The [test project file](Tests/PureLogic/DreamGamesCase.PureLogic.Tests.csproj) defaults to the Windows Unity Hub installation path for `6000.6.4f1`. For a different installation, pass `-p:UnityManaged="<path-to-UnityEngine-managed-directory>"` to the command above.
+The [test project file](Tests/PureLogic/DreamGamesCase.PureLogic.Tests.csproj) reads the editor version from `ProjectVersion.txt` and uses the standard Unity Hub installation path on Windows, macOS or Linux. For a custom installation, pass `-p:UnityManaged="<path-to-UnityEngine-managed-directory>"` to the command above. A missing installation produces an error with the expected path.
 
 The components in `Assets/Scripts/Tests` are separate runtime experiments, not the standalone NUnit suite.
 
@@ -90,4 +101,4 @@ Developed as a **two-person project**.
 
 **My main contribution** was defining gameplay class responsibilities and deciding which behaviors should belong to which domain classes. The architecture description covers the collaborative project as a whole, not individual authorship of every mechanism.
 
-The sprites and other visual assets shown in the demo belong to **Dream Games**. They are not original artwork by the project contributors; the original sprites are omitted from this public checkout.
+The sprites and other visual assets shown in the demo belong to **Dream Games**. They are not original artwork by the project contributors; the original sprites are omitted from this public checkout. The generated placeholder graphics are separate geometric artwork and contain no Dream Games image data.
