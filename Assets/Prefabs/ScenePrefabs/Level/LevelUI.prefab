@@ -45,23 +45,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1937588117701227326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 419dc1e417dd481dbf94456353ffaf1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_EditorClassIdentifier: Assembly-CSharp::RequirementGridLayoutGroup
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 2
+    m_Right: 2
+    m_Top: 2
+    m_Bottom: 2
   m_ChildAlignment: 4
-  m_Spacing: 15
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 95, y: 95}
+  m_Spacing: {x: 8, y: 8}
+  m_Constraint: 1
+  m_ConstraintCount: 2
 --- !u!1 &5212726747882816957
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,19 +244,7 @@ MonoBehaviour:
   m_MovesText: {fileID: 3279298879819406577}
   m_RequirementsContainer: {fileID: 1027384650294585267}
   m_RequirementSlotPrefab: {fileID: -7449188983698655427, guid: 2217ff2c4587f5c43ba4e9f3abbb393b, type: 3}
-  m_TileSprites:
-  - type: 2
-    sprite: {fileID: 8166710274925509176, guid: d67592f22618d004e923c17abdf267df, type: 3}
-  - type: 3
-    sprite: {fileID: -6099873399732076034, guid: 0fc088464a87f734ebdb9e73a8c1bdc5, type: 3}
-  - type: 4
-    sprite: {fileID: -2615874204119335, guid: 38e7267f277b48245a3438cd9383878b, type: 3}
-  - type: 5
-    sprite: {fileID: -8425141836431729757, guid: c57f288a9ca5478439af1838e5a7ea7e, type: 3}
-  - type: 6
-    sprite: {fileID: 7499154508442906066, guid: 65ac6e9e139954d448068417354a686f, type: 3}
-  - type: 0
-    sprite: {fileID: 0}
+  m_SpriteLibrary: {fileID: 7108339969198208228, guid: 3ca3355cfaef1a341a7a84195fe3f6bd, type: 3}
   m_LevelEndPopup: {fileID: 2338056851782608692}
 --- !u!1 &7140539039603029403
 GameObject:

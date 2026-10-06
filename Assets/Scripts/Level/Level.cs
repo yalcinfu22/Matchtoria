@@ -1,89 +1,71 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Level
 {
-    private int m_levelNumber;
-    public int LevelNumber => m_levelNumber;
+    private readonly int m_LevelNumber;
+    public int LevelNumber => m_LevelNumber;
 
-    private int m_moves;
-    private Dictionary<TargetType, int> m_requirements;
+    private int m_Moves;
+    public int RemainingMoves => m_Moves;
 
-    // Active requirement counter: number of requirement types whose remaining > 0.
-    // Decremented exactly when a requirement transitions oldValue>0 → newValue=0.
-    // CheckGameEnd reads this in O(1) instead of iterating the dict.
-    private int m_ActiveRequirementCount;
+    // Sadece tamamlanmamış (>0) hedefler tutulur; 0'a düşen silinir.
+    private readonly Dictionary<TargetType, int> m_Requirements;
+    public IReadOnlyDictionary<TargetType, int> Requirements => m_Requirements;
 
-    public IReadOnlyDictionary<TargetType, int> Requirements => m_requirements;
-    public int RemainingMoves => m_moves;
+    public bool IsWon => m_Requirements.Count == 0;
+    public bool IsOutOfMoves => m_Moves <= 0;
 
     public event Action<int> OnMovesChanged;
     public event Action<TargetType, int> OnRequirementChanged;
-    public event Action<bool> OnLevelEnded;
     public event Action OnLevelWon;
     public event Action OnLevelLost;
 
     public Level(int levelNumber, int moves, Dictionary<TargetType, int> requirements)
     {
-        m_levelNumber = levelNumber;
-        m_moves = moves;
-        m_requirements = requirements;
+        m_LevelNumber = levelNumber;
+        m_Moves = moves;
 
-        m_ActiveRequirementCount = 0;
-        foreach (var kvp in m_requirements)
+        // Dışarıdan gelen dict'i kopyala: silme işlemi level datasını bozmasın.
+        m_Requirements = new Dictionary<TargetType, int>();
+        foreach (var kvp in requirements)
         {
-            if (kvp.Value > 0) m_ActiveRequirementCount++;
+            if (kvp.Value > 0) m_Requirements.Add(kvp.Key, kvp.Value);
         }
     }
 
     public LevelStatus GetStatus()
     {
-        foreach (var kvp in m_requirements)
-        {
-            if (kvp.Value > 0)
-            {
-                return m_moves > 0 ? LevelStatus.Ongoing : LevelStatus.Lost;
-            }
-        }
-        return m_moves >= 0 ? LevelStatus.Won : LevelStatus.Lost;
+        if (IsWon) return LevelStatus.Won;
+        return IsOutOfMoves ? LevelStatus.Lost : LevelStatus.Ongoing;
     }
 
     public void ConsumeMove()
     {
-        m_moves--;
-        OnMovesChanged?.Invoke(m_moves);
+        if (IsOutOfMoves) return;
+        m_Moves--;
+        OnMovesChanged?.Invoke(m_Moves);
     }
 
     public void UpdateRequirement(TargetType type, int amount)
     {
-        if (!m_requirements.ContainsKey(type)) return;
+        if (!m_Requirements.TryGetValue(type, out int oldValue)) return;
 
-        int oldValue = m_requirements[type];
         int newValue = Math.Max(0, oldValue - amount);
-        m_requirements[type] = newValue;
-
-        if (oldValue > 0 && newValue == 0) m_ActiveRequirementCount--;
+        if (newValue == 0) m_Requirements.Remove(type);
+        else m_Requirements[type] = newValue;
 
         OnRequirementChanged?.Invoke(type, newValue);
     }
 
-    // External trigger: called by composition root once the board has fully settled.
-    // Win takes priority over lose: clearing requirements on the last move still wins.
+    // Board tamamen oturduktan sonra composition root tarafından çağrılır.
+    // Kazanma önceliklidir: son hamlede hedefler bittiyse yine kazanır.
     public void CheckGameEnd()
     {
-        if (m_ActiveRequirementCount <= 0)
-            OnLevelWon?.Invoke();
-        else if (m_moves <= 0)
-            OnLevelLost?.Invoke();
+        if (IsWon) OnLevelWon?.Invoke();
+        else if (IsOutOfMoves) OnLevelLost?.Invoke();
     }
 
-    public void NotifyLevelEnded(bool won)
-    {
-        OnLevelEnded?.Invoke(won);
-    }
-
-    public int GetRemainingMoves() { return m_moves; }
 }
 
 public enum LevelStatus

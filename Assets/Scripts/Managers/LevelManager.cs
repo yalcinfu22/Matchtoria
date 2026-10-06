@@ -18,7 +18,7 @@ public class LevelManager
         // Create Level logic object
         m_currentLevel = CreateLevelFromData(levelData);
 
-        Debug.Log($"Level {levelData.level_number} started: {m_currentLevel.GetRemainingMoves()} moves");
+        Debug.Log($"Level {levelData.level_number} started: {m_currentLevel.RemainingMoves} moves");
         return true;
     }
 

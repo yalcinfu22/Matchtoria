@@ -1,43 +1,48 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class LevelUIManager : MonoBehaviour
 {
-    [Serializable]
-    public struct TileSpriteEntry
-    {
-        public TargetType type;
-        public Sprite sprite;
-    }
-
     [SerializeField] private TMP_Text m_MovesText;
     [SerializeField] private Transform m_RequirementsContainer;
     [SerializeField] private RequirementSlotView m_RequirementSlotPrefab;
-    [SerializeField] private TileSpriteEntry[] m_TileSprites;
+    [SerializeField] private SpriteLibraryAsset m_SpriteLibrary;
     [SerializeField] private LevelEndPopup m_LevelEndPopup;
 
     private Dictionary<TargetType, RequirementSlotView> m_SlotsByType;
-    private Dictionary<TargetType, Sprite> m_SpritesByType;
 
     public void Initialize(IReadOnlyDictionary<TargetType, int> requirements, int moves)
     {
-        BuildSpriteLookup();
         SpawnRequirementSlots(requirements);
 
         m_MovesText.text = moves.ToString();
     }
 
-    private void BuildSpriteLookup()
+    private Sprite GetRequirementSprite(TargetType type)
     {
-        m_SpritesByType = new Dictionary<TargetType, Sprite>();
-        foreach (var entry in m_TileSprites)
+        if (m_SpriteLibrary == null)
         {
-            if (!m_SpritesByType.ContainsKey(entry.type))
-                m_SpritesByType.Add(entry.type, entry.sprite);
-            else
-                Debug.LogWarning($"Duplicate TileSprite mapping for: {entry.type}");
+            Debug.LogError("Requirement sprite library is not assigned.", this);
+            return null;
+        }
+
+        switch (type)
+        {
+            case TargetType.Red:
+            case TargetType.Green:
+            case TargetType.Blue:
+            case TargetType.Yellow:
+                return m_SpriteLibrary.GetSprite("Matchable", type.ToString());
+            case TargetType.Box:
+                return m_SpriteLibrary.GetSprite("Box", "Box1");
+            case TargetType.Vase:
+                return m_SpriteLibrary.GetSprite("Vase", "Vase2");
+            case TargetType.Rock:
+                return m_SpriteLibrary.GetSprite("Stone", "Stone");
+            default:
+                return null;
         }
     }
 
@@ -47,8 +52,9 @@ public class LevelUIManager : MonoBehaviour
         foreach (var kvp in requirements)
         {
             var slot = Instantiate(m_RequirementSlotPrefab, m_RequirementsContainer);
-            Sprite icon = m_SpritesByType.TryGetValue(kvp.Key, out var s) ? s : null;
-            Debug.Log($"[UI] Slot for {kvp.Key}: lookup found = {icon != null}, sprite name = {(icon != null ? icon.name : "NULL")}");
+            Sprite icon = GetRequirementSprite(kvp.Key);
+            if (icon == null)
+                Debug.LogWarning($"Requirement sprite not found for: {kvp.Key}", this);
             slot.Setup(icon, kvp.Value);
             m_SlotsByType.Add(kvp.Key, slot);
         }

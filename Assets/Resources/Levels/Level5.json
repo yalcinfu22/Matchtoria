@@ -24,11 +24,11 @@
   ],
   "grid_middle": [
     "red", "green", "blue", "vase", "vase", "yellow", "red", "green",
-    "blue", "yellow", "red", "green", "blue", "yellow", "green", "blue",
+    "blue", "yellow", "green", "green", "blue", "yellow", "green", "blue",
     "green", "vase", "yellow", "red", "green", "blue", "vase", "yellow",
-    "yellow", "red", "green", "blue", "yellow", "red", "green", "red",
-    "blue", "green", "yellow", "red", "blue", "green", "yellow", "blue",
-    "red", "vase", "blue", "green", "yellow", "red", "blue", "green",
+    "yellow", "red", "green", "green", "yellow", "red", "green", "red",
+    "blue", "blue", "yellow", "red", "blue", "green", "yellow", "blue",
+    "red", "vase", "blue", "red", "yellow", "red", "blue", "green",
     "green", "yellow", "red", "blue", "green", "yellow", "red", "yellow"
   ],
   "grid_bottom": [

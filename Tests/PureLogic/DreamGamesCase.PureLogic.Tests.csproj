@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>DreamGamesCase.PureLogic.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <UnityManaged Condition="'$(UnityManaged)' == ''">C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Managed\UnityEngine</UnityManaged>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>$(UnityManaged)\UnityEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(UnityManaged)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!--
+    Pure-logic source linked from Assets/Scripts. Files that depend on
+    MonoBehaviour or other Unity scene-graph types are excluded.
+  -->
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Scripts\Models\BoardModel.cs" Link="Linked\Models\BoardModel.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Commands.cs" Link="Linked\Models\Commands.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\DamagePatterns.cs" Link="Linked\Models\DamagePatterns.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Nodes\NodeModel.cs" Link="Linked\Models\Nodes\NodeModel.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\TileModel.cs" Link="Linked\Models\Tiles\TileModel.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\Matchable.cs" Link="Linked\Models\Tiles\Matchable.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\Obstacles\ObstacleModel.cs" Link="Linked\Models\Tiles\Obstacles\ObstacleModel.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\Obstacles\Box.cs" Link="Linked\Models\Tiles\Obstacles\Box.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\Obstacles\Stone.cs" Link="Linked\Models\Tiles\Obstacles\Stone.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\Obstacles\Vase.cs" Link="Linked\Models\Tiles\Obstacles\Vase.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\SpecialTiles\Rocket.cs" Link="Linked\Models\Tiles\SpecialTiles\Rocket.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\SpecialTiles\TNT.cs" Link="Linked\Models\Tiles\SpecialTiles\TNT.cs" />
+    <Compile Include="..\..\Assets\Scripts\Models\Tiles\SpecialTiles\ColorBomb.cs" Link="Linked\Models\Tiles\SpecialTiles\ColorBomb.cs" />
+
+    <Compile Include="..\..\Assets\Scripts\Abilities\IDamagable.cs" Link="Linked\Abilities\IDamagable.cs" />
+    <Compile Include="..\..\Assets\Scripts\Abilities\IMatchable.cs" Link="Linked\Abilities\IMatchable.cs" />
+    <Compile Include="..\..\Assets\Scripts\Abilities\IMovable.cs" Link="Linked\Abilities\IMovable.cs" />
+    <Compile Include="..\..\Assets\Scripts\Abilities\ITriggerable.cs" Link="Linked\Abilities\ITriggerable.cs" />
+
+    <Compile Include="..\..\Assets\Scripts\Factories\TileFactory.cs" Link="Linked\Factories\TileFactory.cs" />
+    <Compile Include="..\..\Assets\Scripts\Factories\TileIdParser.cs" Link="Linked\Factories\TileIdParser.cs" />
+
+    <Compile Include="..\..\Assets\Scripts\Managers\FallManager.cs" Link="Linked\Managers\FallManager.cs" />
+    <Compile Include="..\..\Assets\Scripts\Managers\MatchManager.cs" Link="Linked\Managers\MatchManager.cs" />
+    <Compile Include="..\..\Assets\Scripts\Managers\Pooling\PoolType.cs" Link="Linked\Managers\Pooling\PoolType.cs" />
+    <Compile Include="..\..\Assets\Scripts\Managers\Pooling\PoolTypeMap.cs" Link="Linked\Managers\Pooling\PoolTypeMap.cs" />
+
+    <Compile Include="..\..\Assets\Scripts\Configs\GameConfig.cs" Link="Linked\Configs\GameConfig.cs" />
+
+    <Compile Include="..\..\Assets\Data\LevelData.cs" Link="Linked\Data\LevelData.cs" />
+  </ItemGroup>
+
+</Project>

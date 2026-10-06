@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class StoneTileView : TileView
+public class StoneTileView : DamageableTileView
 {
 
 }

@@ -30,7 +30,7 @@
   "grid_middle": [
     "red", "blue", "yellow", "green", "red", "blue", "yellow", "green",
     "green", "box", "red", "blue", "yellow", "green", "box", "red",
-    "blue", "yellow", "vertical_rocket", "red", "green", "horizontal_rocket", "blue", "yellow",
+    "blue", "yellow", "ro_v", "red", "green", "ro_h", "blue", "yellow",
     "yellow", "red", "green", "blue", "yellow", "red", "green", "blue",
     "red", "box", "blue", "yellow", "green", "red", "box", "yellow",
     "green", "yellow", "red", "green", "blue", "yellow", "red", "green",

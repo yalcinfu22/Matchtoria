@@ -17,9 +17,6 @@ public abstract class DamageableTileView : TileView, IAnimateDamage, IAnimateDes
     {
         m_displayedHealth = currentHealth;
         SetSpriteFromLibrary();
-
-        transform.DOKill();
-        transform.DOShakePosition(0.15f, strength: 0.05f, vibrato: 20, randomness: 90f, snapping: false, fadeOut: true);
     }
 
     public void PlayDestroy()

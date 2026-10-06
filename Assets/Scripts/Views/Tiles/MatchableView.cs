@@ -12,7 +12,6 @@ public class MatchableTileView : TileView, IAnimateDestroy
 
         Sequence seq = DOTween.Sequence();
         seq.Append(transform.DOScale(Vector3.one * 0.4f, 0.08f).SetEase(Ease.InQuad));
-        seq.Join(transform.DOMove(transform.position + Vector3.up * 0.1f, 0.08f).SetEase(Ease.OutQuad));
         seq.AppendCallback(() =>
         {
             m_SpriteRenderer.enabled = false;
